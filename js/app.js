@@ -1,4 +1,16 @@
+'use strict'
+
 var PLAYER_VERTICAL_INCREMENT = 20;
+
+var Actor = function(x, y, speed) {
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+};
+
+Actor.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
@@ -10,10 +22,8 @@ var Enemy = function(x, y, speed) {
     this.sprite = 'images/enemy-bug.png';
 };
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+Enemy.prototype = Object.create(Actor.prototype);
+Enemy.prototype.constructor = Enemy;
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -26,9 +36,6 @@ Enemy.prototype.update = function(dt) {
     if (this.x >= 505) {
         this.x = 0;
     }
-
-    // Checks for collision with barrier walls or enemies
-    // checkForCollision(this);
 };
 
 Enemy.prototype.collisions = function() {
@@ -90,6 +97,9 @@ var Player = function(x, y, speed) {
     };
 };
 
+Player.prototype = Object.create(Actor.prototype);
+Player.prototype.constructor = Player;
+
 Player.prototype.handleInput = function(key) {
     switch (key) {
         case 'up':
@@ -107,15 +117,9 @@ Player.prototype.handleInput = function(key) {
     }
 };
 
-// Draw the player on the screen, required method for game
-// Display score
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    this.displayStats(score, gameLevel);
-};
-
 Player.prototype.update = function() {
     // If you remove this function the game won't start up
+    this.displayStats(score, gameLevel);
 }
 
 // Increase number of enemies on screen based on player's score
