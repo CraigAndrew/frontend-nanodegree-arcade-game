@@ -39,21 +39,31 @@ var Player = function(x, y, speed) {
     this.y = y;
     this.speed = speed;
     this.sprite = 'images/char-boy.png';
+
+    // Displays player's score
+    this.displayStats = function(aScore, aLevel) {
+        var canvas = document.getElementsByTagName('canvas');
+        var firstCanvasTag = canvas[0];
+
+        // Adds player score and level to div element created
+        scoreLevelDiv.innerHTML = 'Score: ' + aScore + ' / ' + 'Level: ' + aLevel;
+        document.body.insertBefore(scoreLevelDiv, firstCanvasTag[0]);
+    };
 };
 
 Player.prototype.handleInput = function(key) {
     switch (key) {
         case 'up':
-            player.y -= player.speed - PLAYER_VERTICAL_INCREMENT;
+            this.y -= this.speed - PLAYER_VERTICAL_INCREMENT;
             break;
         case 'right':
-            player.x += player.speed;
+            this.x += this.speed;
             break;
         case 'down':
-            player.y += player.speed - PLAYER_VERTICAL_INCREMENT;
+            this.y += this.speed - PLAYER_VERTICAL_INCREMENT;
             break;
         case 'left':
-            player.x -= player.speed;
+            this.x -= this.speed;
             break;
     }
 };
@@ -62,7 +72,7 @@ Player.prototype.handleInput = function(key) {
 // Display score
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    displayStats(score, gameLevel);
+    this.displayStats(score, gameLevel);
 };
 
 Player.prototype.update = function() {
@@ -106,16 +116,6 @@ var checkForCollision = function(enemy) {
     if (player.x < 2.5) {
         player.x = 2.5;
     }
-};
-
-// Displays player's score
-var displayStats = function(aScore, aLevel) {
-    var canvas = document.getElementsByTagName('canvas');
-    var firstCanvasTag = canvas[0];
-
-    // Adds player score and level to div element created
-    scoreLevelDiv.innerHTML = 'Score: ' + aScore + ' / ' + 'Level: ' + aLevel;
-    document.body.insertBefore(scoreLevelDiv, firstCanvasTag[0]);
 };
 
 // Increase number of enemies on screen based on player's score
