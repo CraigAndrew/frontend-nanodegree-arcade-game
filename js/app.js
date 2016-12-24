@@ -70,7 +70,7 @@ Player.prototype.update = function() {
 }
 
 var checkForCollision = function(enemy) {
-    // check for collision between enemy and player
+    // Check for collision between enemy and player
     if (
         player.y + 131 >= enemy.y + 90
         && player.x + 25 <= enemy.x + 88
@@ -80,7 +80,7 @@ var checkForCollision = function(enemy) {
         player.y = 383;
     }
 
-    // check for player reaching top of canvas and winning the game
+    // Checks for player reaching top of canvas and winning the game
     // if player wins, add 1 to the score and level
     // pass score as an argument to the increaseDifficulty function
     if (player.y + 63 <= 0) {        
@@ -95,7 +95,7 @@ var checkForCollision = function(enemy) {
         increaseDifficulty(score);
     }
 
-    // check if player runs into left, bottom, or right canvas walls
+    // Checks if player runs into left, bottom, or right canvas walls
     // prevent player from moving beyond canvas wall boundaries
     if (player.y > 383 ) {
         player.y = 383;
@@ -113,7 +113,7 @@ var displayStats = function(aScore, aLevel) {
     var canvas = document.getElementsByTagName('canvas');
     var firstCanvasTag = canvas[0];
 
-    // add player score and level to div element created
+    // Adds player score and level to div element created
     scoreLevelDiv.innerHTML = 'Score: ' + aScore + ' / ' + 'Level: ' + aLevel;
     document.body.insertBefore(scoreLevelDiv, firstCanvasTag[0]);
 };
