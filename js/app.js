@@ -28,7 +28,46 @@ Enemy.prototype.update = function(dt) {
     }
 
     // Checks for collision with barrier walls or enemies
-    checkForCollision(this);
+    // checkForCollision(this);
+};
+
+Enemy.prototype.collisions = function() {
+    // Check for collision between enemy and player
+    if (
+        player.y + 131 >= this.y + 90
+        && player.x + 25 <= this.x + 88
+        && player.y + 73 <= this.y + 135
+        && player.x + 76 >= this.x + 11) {
+        player.x = 202.5;
+        player.y = 383;
+    }
+
+    // Checks for player reaching top of canvas and winning the game
+    // if player wins, add 1 to the score and level
+    // pass score as an argument to the increaseDifficulty function
+    if (player.y + 63 <= 0) {
+        player.x = 202.5;
+        player.y = 383;
+
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, 505, 171);
+
+        score += 1;
+        gameLevel += 1;
+        increaseDifficulty(score);
+    }
+
+    // Checks if player runs into left, bottom, or right canvas walls
+    // prevent player from moving beyond canvas wall boundaries
+    if (player.y > 383 ) {
+        player.y = 383;
+    }
+    if (player.x > 402.5) {
+        player.x = 402.5;
+    }
+    if (player.x < 2.5) {
+        player.x = 2.5;
+    }
 };
 
 // Now write your own player class
@@ -78,45 +117,6 @@ Player.prototype.render = function() {
 Player.prototype.update = function() {
     // If you remove this function the game won't start up
 }
-
-var checkForCollision = function(enemy) {
-    // Check for collision between enemy and player
-    if (
-        player.y + 131 >= enemy.y + 90
-        && player.x + 25 <= enemy.x + 88
-        && player.y + 73 <= enemy.y + 135
-        && player.x + 76 >= enemy.x + 11) {
-        player.x = 202.5;
-        player.y = 383;
-    }
-
-    // Checks for player reaching top of canvas and winning the game
-    // if player wins, add 1 to the score and level
-    // pass score as an argument to the increaseDifficulty function
-    if (player.y + 63 <= 0) {        
-        player.x = 202.5;
-        player.y = 383;
-
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, 505, 171);
-
-        score += 1;
-        gameLevel += 1;
-        increaseDifficulty(score);
-    }
-
-    // Checks if player runs into left, bottom, or right canvas walls
-    // prevent player from moving beyond canvas wall boundaries
-    if (player.y > 383 ) {
-        player.y = 383;
-    }
-    if (player.x > 402.5) {
-        player.x = 402.5;
-    }
-    if (player.x < 2.5) {
-        player.x = 2.5;
-    }
-};
 
 // Increase number of enemies on screen based on player's score
 var increaseDifficulty = function(numEnemies) {
